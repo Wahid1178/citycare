@@ -5,7 +5,7 @@ try {
     $mongoUri = getenv('MONGODB_URI');
 
     if (!$mongoUri) {
-        $mongoUri = "mongodb+srv://mhidayatnw123_db_user:Wahid178@citycare.xivrvco.mongodb.net/?retryWrites=true&w=majority&appName=citycare";
+        die("MONGODB_URI belum diatur di Railway.");
     }
 
     $client = new MongoDB\Client($mongoUri);
