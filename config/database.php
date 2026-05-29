@@ -2,7 +2,14 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
-    $client = new MongoDB\Client("mongodb+srv://mhidayatnw123_db_user:Wahid178@citycare.xivrvco.mongodb.net/?retryWrites=true&w=majority&appName=citycare");
+    $mongoUri = getenv('MONGODB_URI');
+
+    if (!$mongoUri) {
+        $mongoUri = "mongodb+srv://mhidayatnw123_db_user:Wahid178@citycare.xivrvco.mongodb.net/?retryWrites=true&w=majority&appName=citycare";
+    }
+
+    $client = new MongoDB\Client($mongoUri);
+
     $db = $client->citycare;
 
     $usersCollection = $db->users;
