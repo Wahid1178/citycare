@@ -59,26 +59,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         : 'Perlu Perbaikan Ulang';
 
     $laporanCollection->updateOne(
-        ['_id' => $id],
-        ['$set' => [
+    ['_id' => $id],
+    ['$set' => [
 
-            'verifikasi_masyarakat' =>
-                $_POST['verifikasi'] == 'Sesuai',
+        'verifikasi_masyarakat' =>
+            $_POST['verifikasi'] == 'Sesuai',
 
-            'status_final' => $statusFinal,
+        'status' =>
+            $_POST['verifikasi'] == 'Sesuai'
+            ? 'Selesai Final'
+            : 'Perlu Perbaikan Ulang',
 
-            'bukti_masyarakat' => $bukti,
+        'status_lapangan' =>
+            $_POST['verifikasi'] == 'Sesuai'
+            ? 'Selesai Final'
+            : 'Sedang Dikerjakan',
 
-            'rating' => (int)$_POST['rating'],
+        'status_final' => $statusFinal,
 
-            'ulasan' => $_POST['ulasan'],
+        'bukti_masyarakat' => $bukti,
 
-            'catatan_masyarakat' => $_POST['catatan_masyarakat'],
+        'rating_pegawai' => (int)$_POST['rating'],
 
-            'updated_at' => date('Y-m-d H:i:s')
+        'ulasan_pegawai' => $_POST['ulasan'] ?? '',
 
-        ]]
-    );
+        'sudah_rating' => true,
+
+        'tanggal_rating' => date('Y-m-d H:i:s'),
+
+        'catatan_masyarakat' => $_POST['catatan_masyarakat'] ?? '',
+
+        'updated_at' => date('Y-m-d H:i:s')
+
+    ]]
+);
 
     // NOTIFIKASI
     $notifCollection->insertOne([
@@ -276,9 +290,9 @@ include __DIR__ . '/../partials/header.php';
         </h2>
 
         <?php if (
-            $laporan['status_lapangan']
-            == 'Selesai Dikerjakan'
-        ): ?>
+    ($laporan['verifikasi_humas'] ?? false) === true &&
+    ($laporan['status_final'] ?? '') == 'Menunggu Verifikasi Masyarakat'
+): ?>
 
             <form
                 method="POST"

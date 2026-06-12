@@ -17,6 +17,14 @@ if (!$laporan) {
     die("Laporan tidak ditemukan atau bukan tugas Anda.");
 }
 
+if (
+    isset($laporan['persentase_progress']) &&
+    $laporan['persentase_progress'] >= 100 &&
+    ($laporan['verifikasi_humas'] ?? true) !== false
+) {
+    die("Progress sudah mencapai 100% dan sedang menunggu verifikasi Humas.");
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $fotoProgress = '';
@@ -50,10 +58,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $statusLapangan = 'Sedang Dikerjakan';
+$statusFinal = 'Belum Selesai';
+$statusUmum = 'Diproses';
+$verifikasiHumas = $laporan['verifikasi_humas'] ?? null;
+$progressLocked = false;
 
-    if ($persentase >= 100) {
-        $statusLapangan = 'Selesai Dikerjakan';
-    }
+if ($persentase >= 100) {
+    $persentase = 100;
+    $statusLapangan = 'Menunggu Verifikasi Humas';
+    $statusFinal = 'Menunggu Verifikasi Humas';
+    $statusUmum = 'Menunggu Verifikasi Humas';
+    $verifikasiHumas = null;
+    $progressLocked = true;
+}
 
     $fotoSelesai = $laporan['foto_selesai'] ?? '';
 
@@ -64,11 +81,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $laporanCollection->updateOne(
         ['_id' => $id],
         ['$set' => [
-            'status_lapangan' => $statusLapangan,
-            'persentase_progress' => $persentase,
-            'catatan_pegawai' => $_POST['catatan_pegawai'],
-            'foto_selesai' => $fotoSelesai,
-            'updated_at' => date('Y-m-d H:i:s')
+            'status' => $statusUmum,
+    'status_lapangan' => $statusLapangan,
+    'status_final' => $statusFinal,
+    'persentase_progress' => $persentase,
+    'catatan_pegawai' => $_POST['catatan_pegawai'],
+    'foto_selesai' => $fotoSelesai,
+    'verifikasi_humas' => $verifikasiHumas,
+    'progress_locked' => $progressLocked,
+    'updated_at' => date('Y-m-d H:i:s')
         ]]
     );
 

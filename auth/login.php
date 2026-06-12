@@ -52,13 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="submit">Login</button>
             <a href="/auth/register.php" class="btn gray">Registrasi Masyarakat</a>
         </form>
-
-        <div class="info">
-            <b>Akun Demo:</b><br>
-            Admin: admin@citycare.com / 123456<br>
-            Petugas: petugas@citycare.com / 123456<br>
-            Masyarakat: user@citycare.com / 123456
-        </div>
     </div>
 </div>
 </body>

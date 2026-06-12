@@ -2,13 +2,8 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
-    $mongoUri = getenv('MONGODB_URI');
-
-    if (!$mongoUri) {
-        die("MONGODB_URI belum diatur di Railway.");
-    }
-
-    $client = new MongoDB\Client($mongoUri);
+    $client = new MongoDB\Client("mongodb://localhost:27017");
+    $db = $client->citycare_pro_db;
 
     $db = $client->citycare;
 

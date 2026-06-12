@@ -101,10 +101,10 @@ include __DIR__ . '/../partials/header.php';
 </div>
 
 <div class="card">
-    <a href="/admin/laporan.php" class="btn dark">Kelola Semua Laporan</a>
-    <a href="/admin/rekap.php" class="btn green">Rekap Sistem</a>
-    <a href="/admin/users/index.php" class="btn orange">Manajemen User</a>
-    <a href="/admin/kategori/index.php" class="btn gray">Kategori Laporan</a>
+    <a href="/superadmin/laporan.php" class="btn dark">Kelola Semua Laporan</a>
+    <a href="/superadmin/rekap.php" class="btn green">Rekap Sistem</a>
+    <a href="/superadmin/users/index.php" class="btn orange">Manajemen User</a>
+    <a href="/superadmin/kategori/index.php" class="btn gray">Kategori Laporan</a>
 </div>
 
 <div class="grid-2">
@@ -137,7 +137,7 @@ include __DIR__ . '/../partials/header.php';
                     <small><?= (int)$laporan['persentase_progress'] ?>%</small>
                 </td>
                 <td>
-                    <a href="/admin/detail_laporan.php?id=<?= $laporan['_id'] ?>" class="btn gray">
+                    <a href="/superadmin/detail_laporan.php?id=<?= $laporan['_id'] ?>" class="btn gray">
                         Detail
                     </a>
                 </td>
